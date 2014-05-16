@@ -17,8 +17,7 @@
 		"issues": "https://github.com/AppsDevTeam/BootstrapFormRenderer/issues"
 	},
 	"require": {
-		"nette/nette": "~2.1@dev",
-		"kdyby/bootstrap-form-renderer": "@dev"
+		"nette/nette": "~2.1@dev"
 	},
 	"require-dev": {
 		"nette/tester": "@dev",
