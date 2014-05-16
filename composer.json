@@ -1,20 +1,20 @@
 {
-	"name": "kdyby/bootstrap-form-renderer",
+	"name": "adt/bootstrap-form-renderer",
 	"type": "library",
-	"description": "Nette forms renderer with bootstrap",
-	"keywords": ["nette", "kdyby", "forms", "bootstrap"],
-	"homepage": "http://kdyby.org",
+	"description": "Nette forms renderer with bootstrap and snippet support",
+	"keywords": ["nette", "kdyby", "appsdevteam", "forms", "bootstrap"],
+	"homepage": "http://appsdevteam.com",
 	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
 	"authors": [
 		{
-			"name": "Filip Procházka",
-			"homepage": "http://filip-prochazka.com",
-			"email": "filip@prochazka.su"
+			"name": "Tomáš Kudělka",
+			"homepage": "http://appsdevteam.com",
+			"email": "tomas@appsdevteam.com"
 		}
 	],
 	"support": {
-		"email": "filip@prochazka.su",
-		"issues": "https://github.com/kdyby/BootstrapFormRenderer/issues"
+		"email": "tomas@appsdevteam.com",
+		"issues": "https://github.com/AppsDevTeam/BootstrapFormRenderer/issues"
 	},
 	"require": {
 		"nette/nette": "~2.1@dev"
@@ -25,7 +25,7 @@
 	},
 	"autoload": {
 		"psr-0": {
-			"Kdyby\\BootstrapFormRenderer\\": "src/"
+			"ADT\\BootstrapFormRenderer\\": "src/"
 		}
 	}
 }
