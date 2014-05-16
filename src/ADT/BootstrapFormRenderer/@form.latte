@@ -1,0 +1,153 @@
+{*
+ * This file is part of the Kdyby (http://www.kdyby.org)
+ *
+ * Copyright (c) 2008 Filip Procházka (filip@prochazka.su)
+ *
+ * For the full copyright and license information, please view the file license.md that was distributed with this source code.
+ *}
+ 
+ {*
+  * Modified for easy snippet rendering by Apps Dev Team (http://appsdevteam.com)
+  *
+  * @copyright Copyright (c) 2014 Tomáš Kudělka (tomas@appsdevteam.com)
+  * @license BSD
+  *}
+ 
+{snippet controls}
+
+{define #errors}
+	<div n:foreach="$renderer->findErrors() as $error" class="alert alert-error">
+		<a class="close" data-dismiss="alert">×</a>{$error}
+	</div>
+{/define}
+
+{define #controls}
+	{foreach $controls as $control}
+		{if $renderer->isSubmitButton($control)}
+				{if $iterator->first}{='<div class="form-actions">'|noescape}{/if}
+				{input $renderer->getControlName($control)}
+				{if !$renderer->isSubmitButton($iterator->nextValue)}{="</div>"|noescape}{/if}
+				{?continue}
+		{/if}
+
+		{var $attrs = ['input' => [], 'label' => []]}
+
+		{include #control, attrs => $attrs, control => $control, _control => $_control, form => $form, _form => $form, '_dynSnippets' => & $_dynSnippets}
+
+		{if $renderer->isSubmitButton($iterator->nextValue)}{='<div class="form-actions">'|noescape}{/if}
+	{/foreach}
+{/define}
+
+{define #control}
+	<div{$control->getOption('pairContainer')->attributes()|noescape} n:tag-if="$control->getOption('pairContainer')">
+		{var
+			$name = $renderer->getControlName($control),
+			$description = $renderer->getControlDescription($control),
+			$error = $renderer->getControlError($control)
+		}
+		
+		{if $controlTemplate = $renderer->getControlTemplate($control)}
+				{include "$controlTemplate", name => $name, description => $description, error => $error, form => $form, _form => $form, attrs => $attrs, '_dynSnippets' => & $_dynSnippets}
+
+		{elseif $renderer->isSubmitButton($control)}
+
+				{$renderer::mergeAttrs($form[$name]->getControl(), $attrs['input'])}
+
+		{elseif $renderer->isButton($control)}
+
+				<div class="controls">
+{$renderer::mergeAttrs($form[$name]->getControl(), $attrs['input'])}{$error}{$description}
+				</div>
+
+		{elseif $renderer->isCheckbox($control)}
+			{var $label = $renderer::mergeAttrs($form[$name]->getLabel(), $attrs['label'])}
+			<div class="controls" n:tag-if="!$renderer->controlHasClass($control, 'inline')">
+					{$label->startTag()|noescape}{$renderer::mergeAttrs($form[$name]->getControl(), $attrs['input'])}{$renderer->getLabelBody($control)}{$label->endTag()|noescape}{$error}{$description}
+			</div>
+		{elseif $renderer->isRadioList($control)}
+				{$renderer::mergeAttrs($form[$name]->getLabel()->addClass("control-label"), $attrs['label'])}
+
+				<div class="controls">
+					{foreach $renderer->getRadioListItems($control) as $item}
+						{$renderer::mergeAttrs($item->html, $attrs['input'])}
+					{/foreach}{$error}{$description}
+				</div>
+		{elseif $renderer->isCheckboxList($control)}
+			{$renderer::mergeAttrs($form[$name]->getLabel()->addClass("control-label"), $attrs['label'])}
+
+			<div class="controls">
+				{foreach $renderer->getCheckboxListItems($control) as $item}
+					{$renderer::mergeAttrs($item->html, $attrs['input'])}
+				{/foreach}{$error}{$description}
+			</div>
+		{else}
+			{$renderer::mergeAttrs($form[$name]->getLabel(), $attrs['label'])}
+{*
+			{if $snippetName = $control->getOption('snippet']}n:snippet="is_string($snippetName)} ? controls-{$snippetName} : controls-$name"{/if}
+	*}		
+			{if $snippetName = $control->getOption('snippet')}
+				{var $snippetName = is_string($snippetName) ? 'controls-'.$snippetName : 'controls-'.$name}
+				<div class="controls" n:snippet="$snippetName">
+					{var $prepend = $control->getOption('input-prepend'), $append = $control->getOption('input-append')}
+					<div n:class="$prepend? input-prepend, $append? input-append" n:tag-if="$prepend || $append">
+						{$prepend}{$renderer::mergeAttrs($form[$name]->getControl(), $attrs['input'])}{$append}
+					</div>
+					{$error}{$description}
+				</div>
+			{else}
+				<div class="controls">
+					{var $prepend = $control->getOption('input-prepend'), $append = $control->getOption('input-append')}
+					<div n:class="$prepend? input-prepend, $append? input-append" n:tag-if="$prepend || $append">
+						{$prepend}{$renderer::mergeAttrs($form[$name]->getControl(), $attrs['input'])}{$append}
+					</div>
+					{$error}{$description}
+				</div>
+			{/if}
+		{/if}
+	</div>
+{/define}
+
+{define #group}
+	<fieldset{$group->attrs->attributes()|noescape}>
+		<legend n:if="$group->label">{$group->label}</legend>
+		<p n:if="$group->description">{$group->description}</p>
+		{var $controls = $group->controls}
+		{if isset($group->template) && $group->template}
+			{include "$group->template", group => $group, controls => $controls, form => $form, _form => $form, '_dynSnippets' => & $_dynSnippets}
+		{else}
+			{include #controls, controls => $controls, '_dynSnippets' => & $_dynSnippets}
+		{/if}
+	</fieldset>
+{/define}
+
+{define #body}
+	{* controls with group *}
+	{foreach $renderer->findGroups() as $group}
+		{include #blocks, '_dynSnippets' => & $_dynSnippets}
+	{/foreach}
+
+	{* controls without group *}
+	{include #controls, controls => $renderer->findControls(), '_dynSnippets' => & $_dynSnippets}
+{/define}
+
+{define #form}
+	{form $form}
+		{include #errors, '_dynSnippets' => & $_dynSnippets}
+
+		{include #body, '_dynSnippets' => & $_dynSnippets}
+	{/form}
+{/define}
+
+{var $_dynSnippets = new ArrayObject()}
+
+{if !isset($mode)}
+	{include #form, form => $form, renderer => $renderer, '_dynSnippets' => & $_dynSnippets}
+{/if}
+
+{if isset($echoSnippets)}
+	{?unset($_dynSnippets)}
+{else}
+	{var $_dynSnippets = iterator_to_array($_dynSnippets)}
+{/if}
+
+{/snippet}
