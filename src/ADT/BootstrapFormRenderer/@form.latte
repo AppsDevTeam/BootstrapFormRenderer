@@ -43,7 +43,8 @@
 		{var
 			$name = $renderer->getControlName($control),
 			$description = $renderer->getControlDescription($control),
-			$error = $renderer->getControlError($control)
+			$error = $renderer->getControlError($control),
+			$snippetName = 'controls-'.$name
 		}
 		
 		{if $controlTemplate = $renderer->getControlTemplate($control)}
@@ -55,19 +56,19 @@
 
 		{elseif $renderer->isButton($control)}
 
-				<div class="controls">
+				<div class="controls" n:snippet="$snippetName">
 {$renderer::mergeAttrs($form[$name]->getControl(), $attrs['input'])}{$error}{$description}
 				</div>
 
 		{elseif $renderer->isCheckbox($control)}
 			{var $label = $renderer::mergeAttrs($form[$name]->getLabel(), $attrs['label'])}
-			<div class="controls" n:tag-if="!$renderer->controlHasClass($control, 'inline')">
+			<div class="controls" n:snippet="$snippetName" n:tag-if="!$renderer->controlHasClass($control, 'inline')">
 					{$label->startTag()|noescape}{$renderer::mergeAttrs($form[$name]->getControl(), $attrs['input'])}{$renderer->getLabelBody($control)}{$label->endTag()|noescape}{$error}{$description}
 			</div>
 		{elseif $renderer->isRadioList($control)}
 				{$renderer::mergeAttrs($form[$name]->getLabel()->addClass("control-label"), $attrs['label'])}
 
-				<div class="controls">
+				<div class="controls" n:snippet="$snippetName">
 					{foreach $renderer->getRadioListItems($control) as $item}
 						{$renderer::mergeAttrs($item->html, $attrs['input'])}
 					{/foreach}{$error}{$description}
@@ -75,7 +76,7 @@
 		{elseif $renderer->isCheckboxList($control)}
 			{$renderer::mergeAttrs($form[$name]->getLabel()->addClass("control-label"), $attrs['label'])}
 
-			<div class="controls">
+			<div class="controls" n:snippet="$snippetName">
 				{foreach $renderer->getCheckboxListItems($control) as $item}
 					{$renderer::mergeAttrs($item->html, $attrs['input'])}
 				{/foreach}{$error}{$description}
@@ -85,25 +86,19 @@
 {*
 			{if $snippetName = $control->getOption('snippet']}n:snippet="is_string($snippetName)} ? controls-{$snippetName} : controls-$name"{/if}
 	*}		
-			{if $snippetName = $control->getOption('snippet')}
-				{var $snippetName = is_string($snippetName) ? 'controls-'.$snippetName : 'controls-'.$name}
-				<div class="controls" n:snippet="$snippetName">
-					{var $prepend = $control->getOption('input-prepend'), $append = $control->getOption('input-append')}
-					<div n:class="$prepend? input-prepend, $append? input-append" n:tag-if="$prepend || $append">
-						{$prepend}{$renderer::mergeAttrs($form[$name]->getControl(), $attrs['input'])}{$append}
-					</div>
-					{$error}{$description}
+			
+			<div class="controls" n:snippet="$snippetName">
+				{var $prepend = $control->getOption('input-prepend'), $append = $control->getOption('input-append')}
+				<div n:class="$prepend? input-prepend, $append? input-append" n:tag-if="$prepend || $append">
+					{$prepend}{$renderer::mergeAttrs($form[$name]->getControl(), $attrs['input'])}{$append}
 				</div>
-			{else}
-				<div class="controls">
-					{var $prepend = $control->getOption('input-prepend'), $append = $control->getOption('input-append')}
-					<div n:class="$prepend? input-prepend, $append? input-append" n:tag-if="$prepend || $append">
-						{$prepend}{$renderer::mergeAttrs($form[$name]->getControl(), $attrs['input'])}{$append}
-					</div>
-					{$error}{$description}
-				</div>
-			{/if}
+				{$error}{$description}
+			</div>
 		{/if}
+			
+		{if !$control->getOption('snippet') || $_control->isControlInvalid() && !$_control->isControlInvalid($snippetName)}
+			{?unset($_dynSnippets[$_control->getSnippetId($snippetName)])}
+		{/if}	
 	</div>
 {/define}
 
@@ -144,10 +139,6 @@
 	{include #form, form => $form, renderer => $renderer, '_dynSnippets' => & $_dynSnippets}
 {/if}
 
-{if isset($echoSnippets)}
-	{?unset($_dynSnippets)}
-{else}
-	{var $_dynSnippets = iterator_to_array($_dynSnippets)}
-{/if}
+{var $_dynSnippets = iterator_to_array($_dynSnippets)}
 
 {/snippet}
