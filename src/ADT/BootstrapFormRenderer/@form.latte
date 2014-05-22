@@ -82,11 +82,7 @@
 				{/foreach}{$error}{$description}
 			</div>
 		{else}
-			{$renderer::mergeAttrs($form[$name]->getLabel(), $attrs['label'])}
-{*
-			{if $snippetName = $control->getOption('snippet']}n:snippet="is_string($snippetName)} ? controls-{$snippetName} : controls-$name"{/if}
-	*}		
-			
+			{$renderer::mergeAttrs($form[$name]->getLabel(), $attrs['label'])}			
 			<div class="controls" n:snippet="$snippetName">
 				{var $prepend = $control->getOption('input-prepend'), $append = $control->getOption('input-append')}
 				<div n:class="$prepend? input-prepend, $append? input-append" n:tag-if="$prepend || $append">
@@ -118,7 +114,7 @@
 {define #body}
 	{* controls with group *}
 	{foreach $renderer->findGroups() as $group}
-		{include #blocks, '_dynSnippets' => & $_dynSnippets}
+		{include #group, '_dynSnippets' => & $_dynSnippets}
 	{/foreach}
 
 	{* controls without group *}
