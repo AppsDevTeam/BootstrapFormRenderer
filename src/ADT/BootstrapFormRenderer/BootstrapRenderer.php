@@ -499,6 +499,30 @@ class BootstrapRenderer extends Nette\Object implements Nette\Forms\IFormRendere
 
 		return FALSE;
 	}
+	
+	
+	
+	/**
+	 * @internal
+	 * @param \Nette\Forms\IControl $control
+	 * @return bool
+	 */
+	public static function getControlType(Nette\Forms\IControl $control)
+	{
+		if (self::isSubmitButton($control)) {
+			return 'submitButton';
+		} elseif(self::isButton($control)) {
+			return 'button';
+		} elseif (self::isCheckbox($control)) {
+			return 'checkbox';
+		} elseif (self::isRadioList($control)) {
+			return 'radioList';
+		} elseif (self::isCheckboxList($control)) {
+			return 'checkboxList';
+		} else {
+			return 'input';
+		}
+	}
 
 
 
