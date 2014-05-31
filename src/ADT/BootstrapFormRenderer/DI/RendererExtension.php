@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the file license.txt that was distributed with this source code.
  */
 
-namespace Kdyby\BootstrapFormRenderer\DI;
+namespace ADT\BootstrapFormRenderer\DI;
 
-use Kdyby;
+use ADT;
 use Nette\DI\Compiler;
 use Nette;
 
@@ -38,7 +38,7 @@ class RendererExtension extends Nette\DI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 		$engine = $builder->getDefinition('nette.latte');
 
-		$install = 'Kdyby\BootstrapFormRenderer\Latte\FormMacros::install';
+		$install = 'ADT\BootstrapFormRenderer\Latte\FormMacros::install';
 		$engine->addSetup($install . '(?->getCompiler())', array('@self'));
 	}
 

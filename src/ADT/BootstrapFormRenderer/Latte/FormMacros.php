@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the file license.txt that was distributed with this source code.
  */
 
-namespace Kdyby\BootstrapFormRenderer\Latte;
-use Kdyby;
-use Kdyby\BootstrapFormRenderer\BootstrapRenderer;
+namespace ADT\BootstrapFormRenderer\Latte;
+use ADT;
+use ADT\BootstrapFormRenderer\BootstrapRenderer;
 use Nette;
 use Nette\Forms\Form;
 use Nette\Latte;
