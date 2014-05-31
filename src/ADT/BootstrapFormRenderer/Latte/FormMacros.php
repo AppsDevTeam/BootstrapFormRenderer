@@ -60,7 +60,7 @@ class FormMacros extends Latte\Macros\MacroSet
 {
 
 	/**
-	 * @param \Nette\Latte\Compiler $compiler
+	 * @param \Latte\Compiler $compiler
 	 * @return \Nette\Latte\Macros\MacroSet|void
 	 */
 	public static function install(Latte\Compiler $compiler)
