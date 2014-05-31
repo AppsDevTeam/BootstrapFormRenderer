@@ -61,7 +61,7 @@ class FormMacros extends Latte\Macros\MacroSet
 
 	/**
 	 * @param \Latte\Compiler $compiler
-	 * @return \Nette\Latte\Macros\MacroSet|void
+	 * @return \Latte\Macros\MacroSet|void
 	 */
 	public static function install(Latte\Compiler $compiler)
 	{
@@ -82,7 +82,7 @@ class FormMacros extends Latte\Macros\MacroSet
 	{
 		static $positionRef, $tokensRef;
 
-		if (!property_exists('Nette\Latte\Token', 'empty')) {
+		if (!property_exists('Latte\Token', 'empty')) {
 			return NULL;
 		}
 
@@ -101,8 +101,8 @@ class FormMacros extends Latte\Macros\MacroSet
 
 
 	/**
-	 * @param \Nette\Latte\MacroNode $node
-	 * @param \Nette\Latte\PhpWriter $writer
+	 * @param \Latte\MacroNode $node
+	 * @param \Latte\PhpWriter $writer
 	 * @return string
 	 */
 	public function macroFormBegin(MacroNode $node, PhpWriter $writer)
@@ -127,8 +127,8 @@ class FormMacros extends Latte\Macros\MacroSet
 
 
 	/**
-	 * @param \Nette\Latte\MacroNode $node
-	 * @param \Nette\Latte\PhpWriter $writer
+	 * @param \Latte\MacroNode $node
+	 * @param \Latte\PhpWriter $writer
 	 */
 	public function macroFormEnd(MacroNode $node, PhpWriter $writer)
 	{
@@ -142,8 +142,8 @@ class FormMacros extends Latte\Macros\MacroSet
 
 
 	/**
-	 * @param \Nette\Latte\MacroNode $node
-	 * @param \Nette\Latte\PhpWriter $writer
+	 * @param \Latte\MacroNode $node
+	 * @param \Latte\PhpWriter $writer
 	 */
 	public function macroPair(MacroNode $node, PhpWriter $writer)
 	{
@@ -153,8 +153,8 @@ class FormMacros extends Latte\Macros\MacroSet
 
 
 	/**
-	 * @param \Nette\Latte\MacroNode $node
-	 * @param \Nette\Latte\PhpWriter $writer
+	 * @param \Latte\MacroNode $node
+	 * @param \Latte\PhpWriter $writer
 	 */
 	public function macroGroup(MacroNode $node, PhpWriter $writer)
 	{
@@ -164,8 +164,8 @@ class FormMacros extends Latte\Macros\MacroSet
 
 
 	/**
-	 * @param \Nette\Latte\MacroNode $node
-	 * @param \Nette\Latte\PhpWriter $writer
+	 * @param \Latte\MacroNode $node
+	 * @param \Latte\PhpWriter $writer
 	 */
 	public function macroContainer(MacroNode $node, PhpWriter $writer)
 	{
