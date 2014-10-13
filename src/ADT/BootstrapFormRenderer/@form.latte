@@ -22,7 +22,7 @@
 		<div n:class="$prepend? input-prepend, $append? input-append" n:tag-if="$prepend || $append">
 			{$prepend}{$renderer::mergeAttrs($form[$name]->getControl(), $attrs['input'])}{$append}
 		</div>
-		{if !($form[$name] instanceof Nette\Forms\Controls\SelectBox && strstr($form['_invalidate']->value, $name) !== FALSE)}xx{$error}{/if}{$description}
+		{if !($form[$name] instanceof Nette\Forms\Controls\SelectBox && strstr($form['_invalidate']->value, $name) !== FALSE)}{$error}{/if}{$description}
 	</div>
 {/define}
 
