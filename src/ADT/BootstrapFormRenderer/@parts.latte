@@ -8,27 +8,27 @@
 
 {includeblock "@form.latte"}
 
-{if $mode === "errors"}
+{if $_mode === "errors"}
     {include #errors, renderer => $renderer}
 
-{elseif $mode === "body"}
+{elseif $_mode === "body"}
     {include #body, renderer => $renderer}
 
-{elseif $mode === "controls"}
+{elseif $_mode === "controls"}
     {include #controls, controls => $renderer->findControls(NULL, FALSE)}
 
-{elseif $mode === "buttons"}
+{elseif $_mode === "buttons"}
     {include #controls, controls => $renderer->findControls(NULL, TRUE)}
 
-{elseif $mode instanceof \Nette\Forms\Container}
-    {include #controls, renderer => $renderer, controls => $renderer->findControls($mode)}
+{elseif $_mode instanceof \Nette\Forms\Container}
+    {include #controls, renderer => $renderer, controls => $renderer->findControls($_mode)}
 
-{elseif $mode instanceof \Nette\Forms\ControlGroup}
-    {if $mode->controls}
-        {include #group, renderer => $renderer, group => $renderer->processGroup($mode)}
+{elseif $_mode instanceof \Nette\Forms\ControlGroup}
+    {if $_mode->controls}
+        {include #group, renderer => $renderer, group => $renderer->processGroup($_mode)}
     {/if}
 
-{elseif $mode instanceof \Nette\Forms\IControl}
-    {include #control, renderer => $renderer, control => $mode, attrs => $attrs}
+{elseif $_mode instanceof \Nette\Forms\IControl}
+    {include #control, renderer => $renderer, control => $_mode, attrs => $attrs}
 
 {/if}

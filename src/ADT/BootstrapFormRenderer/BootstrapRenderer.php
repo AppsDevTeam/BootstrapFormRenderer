@@ -160,7 +160,7 @@ class BootstrapRenderer extends Nette\Object implements Nette\Forms\IFormRendere
 			}
 
 			$this->template->setFile(__DIR__ . '/@parts.latte');
-			$this->template->mode = $mode;
+			$this->template->_mode = $mode;
 			$this->template->attrs = (array) $attrs;
 			$this->template->render();
 		}

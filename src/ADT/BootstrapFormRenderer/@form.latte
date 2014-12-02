@@ -138,7 +138,7 @@
 
 {var $_dynSnippets = new ArrayObject()}
 
-{if !isset($mode)}
+{if !isset($_mode)}
 	{include #form, form => $form, renderer => $renderer, '_dynSnippets' => & $_dynSnippets}
 {/if}
 
